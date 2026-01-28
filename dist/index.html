@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clawdbot System Dashboard</title>
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #2d2d2d;
+            --accent: #4f46e5;
+            --text: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        h1 {
+            color: var(--accent);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .metric-label {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-active {
+            background-color: var(--success);
+        }
+        
+        .status-inactive {
+            background-color: var(--danger);
+        }
+        
+        .grid-2 {
+            grid-column: span 2;
+        }
+        
+        .connection-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .connection-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .connection-item:last-child {
+            border-bottom: none;
+        }
+        
+        .connection-status {
+            float: right;
+        }
+        
+        .status-success {
+            color: var(--success);
+        }
+        
+        .status-warning {
+            color: var(--warning);
+        }
+        
+        .status-error {
+            color: var(--danger);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐾 Clawdbot System Dashboard</h1>
+            <p>Real-time monitoring of your Clawdbot ecosystem</p>
+        </header>
+        
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2 class="card-title">🖥️ System Status</h2>
+                <div class="metric-value" id="status-text">Operational</div>
+                <div class="metric-label">Overall System Health</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">⚙️ CPU Usage</h2>
+                <div class="metric-value" id="cpu-usage">24%</div>
+                <div class="metric-label">Current Load</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cpu-progress" style="width: 24%;"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">💾 Memory</h2>
+                <div class="metric-value" id="memory-usage">4.2 GB / 8.0 GB</div>
+                <div class="metric-label">Used / Total</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="memory-progress" style="width: 52%;"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">💿 Disk Space</h2>
+                <div class="metric-value" id="disk-usage">125 GB / 500 GB</div>
+                <div class="metric-label">Used / Total</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="disk-progress" style="width: 25%;"></div>
+                </div>
+            </div>
+            
+            <div class="card grid-2">
+                <h2 class="card-title">🌐 Active Connections</h2>
+                <ul class="connection-list">
+                    <li class="connection-item">
+                        <span>Telegram Channel</span>
+                        <span class="connection-status status-success">● Connected</span>
+                    </li>
+                    <li class="connection-item">
+                        <span>WhatsApp Bridge</span>
+                        <span class="connection-status status-success">● Connected</span>
+                    </li>
+                    <li class="connection-item">
+                        <span>Discord Integration</span>
+                        <span class="connection-status status-success">● Connected</span>
+                    </li>
+                    <li class="connection-item">
+                        <span>BlueBubbles SMS</span>
+                        <span class="connection-status status-warning">● Intermittent</span>
+                    </li>
+                    <li class="connection-item">
+                        <span>Web Interface</span>
+                        <span class="connection-status status-success">● Connected</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">📡 Network</h2>
+                <div class="metric-value" id="network-status">47 ms</div>
+                <div class="metric-label">Response Time</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%;"></div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">🕒 Uptime</h2>
+                <div class="metric-value" id="uptime">7 days, 14:32:17</div>
+                <div class="metric-label">Since Last Restart</div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Clawdbot System Dashboard • Updated: <span id="current-time">Loading...</span></p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple data update simulation
+        function updateDashboard() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+            
+            // Simulate changing values
+            const cpuUsage = Math.floor(Math.random() * 30) + 15; // Random value between 15-45%
+            document.getElementById('cpu-usage').textContent = cpuUsage + '%';
+            document.getElementById('cpu-progress').style.width = cpuUsage + '%';
+            
+            const memoryUsed = (Math.random() * 2 + 3).toFixed(1); // Random value between 3-5 GB
+            document.getElementById('memory-usage').textContent = memoryUsed + ' GB / 8.0 GB';
+            const memoryPercent = (memoryUsed / 8) * 100;
+            document.getElementById('memory-progress').style.width = Math.round(memoryPercent) + '%';
+            
+            const diskUsed = Math.floor(Math.random() * 50) + 100; // Random value between 100-150 GB
+            document.getElementById('disk-usage').textContent = diskUsed + ' GB / 500 GB';
+            const diskPercent = (diskUsed / 500) * 100;
+            document.getElementById('disk-progress').style.width = Math.round(diskPercent) + '%';
+            
+            const responseTime = Math.floor(Math.random() * 30) + 20; // Random value between 20-50ms
+            document.getElementById('network-status').textContent = responseTime + ' ms';
+        }
+        
+        // Update the dashboard every 5 seconds
+        setInterval(updateDashboard, 5000);
+        updateDashboard(); // Initial update
+        
+        // Simulate connection status changes
+        setInterval(() => {
+            const blueBubblesStatus = document.querySelector('.connection-status');
+            if (Math.random() > 0.7) {
+                blueBubblesStatus.className = 'connection-status status-success';
+                blueBubblesStatus.textContent = '● Connected';
+            } else {
+                blueBubblesStatus.className = 'connection-status status-warning';
+                blueBubblesStatus.textContent = '● Intermittent';
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
