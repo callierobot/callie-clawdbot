@@ -1,8 +1,8 @@
-node_modules
-.next
-dist
-out
-build
+node_modules/
+.next/
+dist/
+out/
+build/
 .env
 .env.local
 .env.development.local
@@ -16,7 +16,6 @@ yarn-error.log*
 coverage
 *.lcov
 .nyc_output
-.next
 .cache
 .vercel
 .svelte-kit
